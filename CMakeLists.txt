@@ -29,13 +29,21 @@ MESSAGE(STATUS "CLANG_INCLUDE_DIR : ${CLANG_INCLUDE_DIR}")
 list(APPEND CMAKE_MODULE_PATH "${LLVM_CMAKE_DIR}")
 include(AddLLVM)
 
+add_library(clang_plugin INTERFACE)
+target_link_libraries(clang_plugin INTERFACE "$<$<PLATFORM_ID:Darwin>:-undefined dynamic_lookup>")
+
 # Add library
 add_llvm_library(pfn MODULE PrintFunctionNames.cpp PLUGIN_TOOL clang)
+
+#add_library(pfn SHARED PrintFunctionNames.cpp )
+
+target_include_directories(pfn PRIVATE ${LLVM_INCLUDE_DIR})
+target_link_libraries(pfn PRIVATE clang_plugin)
 
 #target_link_libraries(pfn PRIVATE -L${LLVM_ROOT_DIR}/lib -lclangFormat)
 
 #add_library(pfn  SHARED PrintFunctionNames.cpp )
 
 enable_testing()
-add_test(NAME t1 COMMAND ${CLANG_INSTALL_PREFIX}/bin/clang++ -fplugin=./pfn.so -c ${CMAKE_SOURCE_DIR}/test/ess.cpp)
+add_test(NAME t1 COMMAND ${CLANG_INSTALL_PREFIX}/bin/clang++ -fplugin=./pfn${CMAKE_SHARED_LIBRARY_SUFFIX} -c ${CMAKE_SOURCE_DIR}/test/ess.cpp)
 
