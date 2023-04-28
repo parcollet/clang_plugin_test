@@ -42,8 +42,7 @@ target_link_libraries(pfn PRIVATE clang_plugin)
 
 #target_link_libraries(pfn PRIVATE -L${LLVM_ROOT_DIR}/lib -lclangFormat)
 
-#add_library(pfn  SHARED PrintFunctionNames.cpp )
-
+# test 
 enable_testing()
 add_test(NAME t1 COMMAND ${CLANG_INSTALL_PREFIX}/bin/clang++ -fplugin=./pfn${CMAKE_SHARED_LIBRARY_SUFFIX} -c ${CMAKE_SOURCE_DIR}/test/ess.cpp)
 
