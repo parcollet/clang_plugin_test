@@ -40,9 +40,9 @@ target_link_libraries(pfn PRIVATE "$<$<PLATFORM_ID:Darwin>:-undefined dynamic_lo
 target_include_directories(pfn PRIVATE ${LLVM_INCLUDE_DIR})
 #target_link_libraries(pfn PRIVATE clang_plugin)
 
-#target_link_libraries(pfn PRIVATE -L${LLVM_ROOT_DIR}/lib -lclangFormat)
+#target_link_libraries(pfn PRIVATE ${LLVM_LIBRARY_DIR}/libclangFormat.a)
 
-# test 
+# test
 enable_testing()
 add_test(NAME t1 COMMAND ${CLANG_INSTALL_PREFIX}/bin/clang++ -fplugin=./pfn${CMAKE_SHARED_LIBRARY_SUFFIX} -c ${CMAKE_SOURCE_DIR}/test/ess.cpp)
 
