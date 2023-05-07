@@ -47,7 +47,7 @@ add_definitions(${LLVM_DEFINITIONS_LIST})
 
 # Add library
 #add_llvm_library(pfn MODULE PrintFunctionNames.cpp PLUGIN_TOOL clang)
-add_library(pfn SHARED PrintFunctionNames.cpp )
+add_library(pfn MODULE PrintFunctionNames.cpp )
 
 set_target_properties(pfn PROPERTIES PREFIX "")
 
@@ -56,6 +56,10 @@ target_link_libraries(pfn PRIVATE "$<$<PLATFORM_ID:Darwin>:-undefined dynamic_lo
 
 #target_link_libraries(pfn PRIVATE clang_plugin)
 
+target_link_libraries(pfn  PRIVATE clang-cpp)
+llvm_config(pfn  USE_SHARED option)
+
+#target_link_libraries(pfn PRIVATE -L${LLVM_LIBRARY_DIR} -lclangFormat)
 #target_link_libraries(pfn PRIVATE ${LLVM_LIBRARY_DIR}/libclangFormat.a)
 
 # test
